@@ -1,0 +1,65 @@
+
+// Fonts
+@import url(https://fonts.googleapis.com/css?family=Nunito:300,400,700);
+
+// Variables
+@import "parameters";
+
+// Bootstrap
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  padding-top: 80px;
+  margin-bottom: 60px;
+}
+
+.text-muted {
+  color: rgb(189, 189, 189);
+}
+
+// Navbar
+//.navbar-header .navbar-brand {
+//  color: $footer-default-text-color;
+//}
+//.navbar-default .navbar-nav > li > a {
+//  color: $footer-default-text-color;
+//}
+//.navbar-default .navbar-nav > li > a:hover,
+//.navbar-default .navbar-nav > li > a:focus {
+//  color: darken($footer-default-text-color, 50%);
+//}
+//.navbar-default .dropdown-menu {
+//  background-color: $footer-default-bg;
+//}
+//.navbar-default .dropdown-menu > li > a {
+//  color: $footer-default-text-color;
+//}
+//.navbar-default .dropdown-menu > li > a:hover,
+//.navbar-default .dropdown-menu > li > a:focus {
+//  color: darken($footer-default-text-color, 50%);
+//  background-color: $footer-default-bg;
+//}
+//
+//// Panel
+//.panel-default > .panel-heading {
+//  color: lighten($theme-text-color, 20%);
+//}
+
+// Footer
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: $navbar-default-bg;
+  border: 1px solid $footer-default-border;
+}
+.footer p {
+  margin: 18.5px 0;
+}
