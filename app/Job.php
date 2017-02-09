@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Job extends Model
 {
     protected $table = 'jobs';
+    protected $with = [
+        'client',
+        'contact',
+        'product'
+    ];
 
     /**
      * Return associated Client.
@@ -90,5 +95,17 @@ class Job extends Model
     public function scopeInProgress($query)
     {
         return $query->where('status', 2);
+    }
+
+    /**
+     * Scope a query to only include Jobs by an associated Client.
+     *
+     * @param $query
+     * @param $id
+     * @return mixed
+     */
+    public function scopeClient($query, $id)
+    {
+        return $query->where('client_id', $id);
     }
 }

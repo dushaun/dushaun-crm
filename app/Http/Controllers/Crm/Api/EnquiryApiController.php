@@ -44,36 +44,67 @@ class EnquiryApiController extends Controller
         ], 200);
     }
 
-    public function accept(Enquiry $enquiry)
+    /**
+     *
+     */
+    public function read()
     {
+        $enquiry = Enquiry::find(request('id'));
+        $enquiry->read = 1;
+        $enquiry->save();
+    }
+
+    /**
+     * Accept and enquiry.
+     * Create Client to move onto creating a Job.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function accept()
+    {
+        $enquiry = Enquiry::find(request('id'));
         $enquiry->accepted = 1;
+        $enquiry->converted = 1;
         $enquiry->save();
 
-        $client = new Client();
+        $client = $this->makeClient($enquiry);
 
-        if (!$enquiry->company)
-        {
-            $client->from_enquiry = 1;
-            $client->first_name = $enquiry->first_name;
-            $client->last_name = $enquiry->last_name;
-            $client->email = $enquiry->email;
-            $client->tel_number = $enquiry->tel_number;
+        return response()->json([
+            "client_id" => $client->id
+        ], 200);
+    }
 
-            $client->save();
-        } else {
-            $contact = new Contact();
-            $contact->client_id = $client->id;
-            $contact->first_name = $enquiry->first_name;
-            $contact->last_name = $enquiry->last_name;
-            $contact->email = $enquiry->email;
-            $contact->tel_number = $enquiry->tel_number;
-            $contact->save();
+    /**
+     * Reject a select Enquiry.
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function reject()
+    {
+        $enquiry = Enquiry::find(request('id'));
 
-            $client->main_contact_id = $contact->id;
-            $client->save();
-        }
+        $enquiry->accepted = 2;
+        $enquiry->save();
 
+        return response('Rejected', 200);
+    }
 
+    /**
+     * Convert Enquiry details into a Client.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function convert()
+    {
+        $enquiry = Enquiry::find(request('id'));
+        $enquiry->converted = 1;
+        $enquiry->save();
+
+        $client = $this->makeClient($enquiry);
+
+        return response()->json([
+            "client_id" => $client->id
+        ], 200);
     }
 
     /**
@@ -123,5 +154,43 @@ class EnquiryApiController extends Controller
         return response()->json([
             'products' => $products
         ], 200);
+    }
+
+    /**
+     * Make a Client from provided Enquiry.
+     *
+     * @param $enquiry
+     * @return Client
+     */
+    private function makeClient($enquiry)
+    {
+        $client = new Client();
+
+        if (!$enquiry->company) {
+            $client->from_enquiry = 1;
+            $client->first_name = $enquiry->first_name;
+            $client->last_name = $enquiry->last_name;
+            $client->email = $enquiry->email;
+            $client->tel_number = $enquiry->tel_number;
+
+            $client->save();
+            return $client;
+        } else {
+            $client->save();
+
+            $contact = new Contact();
+            $contact->client_id = $client->id;
+            $contact->first_name = $enquiry->first_name;
+            $contact->last_name = $enquiry->last_name;
+            $contact->email = $enquiry->email;
+            $contact->tel_number = $enquiry->tel_number;
+            $contact->save();
+
+            $client->company = 1;
+            $client->company_name = $enquiry->company_name;
+            $client->main_contact_id = $contact->id;
+            $client->save();
+            return $client;
+        }
     }
 }

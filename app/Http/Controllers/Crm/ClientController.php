@@ -47,7 +47,7 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        return view('crm.clients.show');
+        return view('crm.clients.show', compact('client'));
     }
 
     /**

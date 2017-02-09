@@ -6,14 +6,17 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Clients</div>
-
-                <div class="panel-body">
-                    It Works!
-                </div>
-            </div>
+        <div class="col-md-10 col-md-offset-1">
+            <display-client :data="{{ $client }}"></display-client>
+        </div>
+        <hr>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <job-index :client="{{ $client->id }}"></job-index>
+        </div>
+        <div class="col-md-6">
+            <invoice-index :client="{{ $client->id }}"></invoice-index>
         </div>
     </div>
 @endsection

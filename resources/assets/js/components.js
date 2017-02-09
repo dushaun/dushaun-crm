@@ -6,3 +6,6 @@ Vue.component('job-index', require('./components/crm/job/jobs.vue'));
 
 // Enquiries
 Vue.component('display-enquiry', require('./components/crm/enquiry/display-enquiry.vue'));
+
+// Clients
+Vue.component('display-client', require('./components/crm/client/display-client.vue'));

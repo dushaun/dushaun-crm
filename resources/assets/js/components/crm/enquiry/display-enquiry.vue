@@ -3,9 +3,9 @@
         <div class="col-md-3">
             <div class="list-group">
                 <a href="/crm/enquiries" class="list-group-item list-group-item-info"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Enquiries</a>
-                <a :href="'/crm/enquiries/' + enquiry.id + '/reject'" class="list-group-item list-group-item-danger">Reject</a>
-                <a :href="'/crm/enquiries/' + enquiry.id + '/accept'" class="list-group-item list-group-item-success">Accept</a>
-                <a :href="'/crm/enquiries/' + enquiry.id + '/make/client'" class="list-group-item list-group-item-warning">Make a Client</a>
+                <button class="list-group-item list-group-item-danger" @click="reject()" v-if="enquiry.accepted > 0">Reject</button>
+                <button class="list-group-item list-group-item-success" @click="accept()" v-if="enquiry.accepted > 0">Accept</button>
+                <button class="list-group-item list-group-item-warning" @click="convert()" v-if="!enquiry.converted">Convert to Client</button>
             </div>
         </div>
         <div class="col-md-9">
@@ -107,13 +107,55 @@
                     text: 'Accepting...',
                     showCancelButton: false
                 });
-                axios.patch('/api/crm/enquiries/' + vm.enquiry.id + '/accept')
+                axios.patch('/api/crm/enquiries/accept', {
+                    id: vm.enquiry.id
+                }).then(function (response) {
+                    window.location.href = "/crm/jobs/create?client_id" + response.data.client_id;
+                }).catch(function (error) {
+                    swal({
+                        title: 'Oops!',
+                        text: 'Something went wrong...',
+                        type: 'error'
+                    })
+                })
             },
             reject() {
-
+                let vm = this;
+                swal({
+                    title: '<i class="fa fa-spinner fa-spin fa-fw"></i>',
+                    text: 'Rejecting...',
+                    showCancelButton: false
+                });
+                axios.patch('/api/crm/enquiries/reject', {
+                    id: vm.enquiry.id
+                }).then(function (response) {
+                    window.location.href = '/crm/enquiries';
+                }).catch(function (error) {
+                    swal({
+                        title: 'Oops!',
+                        text: 'Something went wrong...',
+                        type: 'error'
+                    })
+                })
             },
-            makeIntoClient() {
-
+            convert() {
+                let vm = this;
+                swal({
+                    title: '<i class="fa fa-spinner fa-spin fa-fw"></i>',
+                    text: 'Converting...',
+                    showCancelButton: false
+                });
+                axios.patch('/api/crm/enquiries/convert/client', {
+                    id: vm.enquiry.id
+                }).then(function (response) {
+                    window.location.href = '/crm/clients/' + response.data.client_id;
+                }).catch(function (error) {
+                    swal({
+                        title: 'Oops!',
+                        text: 'Something went wrong...',
+                        type: 'error'
+                    })
+                })
             }
         }
     }

@@ -11,6 +11,11 @@ class Client extends Model
 
     protected $table = 'clients';
     protected $dates = ['deleted_at'];
+    protected $with = ['main_contact'];
+    protected $appends = [
+        'client_type',
+        'address'
+    ];
 
     /**
      * Return all Contacts associated with the Client, if the Client is marked as a Company.
@@ -20,6 +25,16 @@ class Client extends Model
     public function contacts()
     {
         return $this->hasMany(Contact::class);
+    }
+
+    /**
+     * Return main Contact of the Client.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function main_contact()
+    {
+        return $this->hasOne(Contact::class, 'id', 'main_contact_id');
     }
 
     /**
@@ -40,6 +55,23 @@ class Client extends Model
     public function subscription()
     {
         return $this->hasOne(Service::class);
+    }
+
+    /**
+     * @return string
+     */
+    public function getClientTypeAttribute()
+    {
+        if ($this->attributes['company']) {
+            return 'Company';
+        } else {
+            return 'Individual';
+        }
+    }
+
+    public function getAddressAttribute()
+    {
+        return $this->attributes['address_line_1'] . ' ' . $this->attributes['address_town'] . ' ' . $this->attributes['address_county'] . ' ' . $this->attributes['address_postcode'];
     }
 
     /**

@@ -20,7 +20,7 @@
                     <td v-if="enquiry.company == 0">{{ enquiry.first_name }} {{ enquiry.last_name }}</td>
                     <td v-if="enquiry.company == 1">{{ enquiry.company_name }}</td>
                     <td>{{ enquiry.product.title }}</td>
-                    <td><a class="btn btn-primary btn-xs" :href="'/crm/enquiries/' + enquiry.id">View <i class="fa fa-arrow-right" aria-hidden="true"></i></a></td>
+                    <td><a class="btn btn-primary btn-xs" :href="'/crm/enquiries/' + enquiry.id" @click="markRead(enquiry.id, enquiry.read)">View <i class="fa fa-arrow-right" aria-hidden="true"></i></a></td>
                 </tr>
                 </tbody>
             </table>
@@ -56,6 +56,17 @@
                         console.log(error);
                         vm.loading = false;
                     })
+            },
+            markRead(id, read) {
+                if (!read) {
+                    axios.patch('/api/crm/enquiries/read', {
+                        id: id
+                    }).then(function (response) {
+                        console.log('Enquiry marked as read')
+                    }).catch(function (error) {
+                        console.log('Something went wrong')
+                    })
+                }
             }
         }
     }
