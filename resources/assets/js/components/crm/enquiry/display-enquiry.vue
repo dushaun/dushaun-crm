@@ -3,8 +3,8 @@
         <div class="col-md-3">
             <div class="list-group">
                 <a href="/crm/enquiries" class="list-group-item list-group-item-info"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Enquiries</a>
-                <button class="list-group-item list-group-item-danger" @click="reject()" v-if="enquiry.accepted > 0">Reject</button>
-                <button class="list-group-item list-group-item-success" @click="accept()" v-if="enquiry.accepted > 0">Accept</button>
+                <button class="list-group-item list-group-item-danger" @click="reject()" v-if="enquiry.accepted < 1">Reject</button>
+                <button class="list-group-item list-group-item-success" @click="accept()" v-if="enquiry.accepted < 1">Accept</button>
                 <button class="list-group-item list-group-item-warning" @click="convert()" v-if="!enquiry.converted">Convert to Client</button>
             </div>
         </div>

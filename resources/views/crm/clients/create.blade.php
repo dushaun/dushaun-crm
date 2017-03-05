@@ -6,12 +6,12 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Clients</div>
+                <div class="panel-heading">Create Client</div>
 
                 <div class="panel-body">
-                    It Works!
+                    <create-client></create-client>
                 </div>
             </div>
         </div>

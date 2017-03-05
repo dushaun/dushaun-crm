@@ -3,14 +3,15 @@
         <div class="col-md-3" v-if="options">
             <div class="list-group">
                 <a href="/crm/clients" class="list-group-item list-group-item-info"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Clients</a>
-                <button class="list-group-item list-group-item-danger">Mark as Bad Payer</button>
+                <button class="list-group-item list-group-item-danger" v-if="client.payer_warning">Remove Bad Payer Status</button>
+                <button class="list-group-item list-group-item-danger" v-if="!client.payer_warning">Mark as Bad Payer</button>
                 <button class="list-group-item list-group-item-success">Add Service Subscription</button>
                 <button class="list-group-item list-group-item-success">Create New Job</button>
             </div>
         </div>
         <div :class="{'col-md-9': options, 'col-md-12': !options}">
             <div class="panel panel-info">
-                <div class="panel-heading">Client #{{ client.id }}</div>
+                <div class="panel-heading">Client #{{ client.id }} <span class="label label-success" v-if="client.enquired">Enquired</span></div>
 
                 <ul class="list-group">
                     <li class="list-group-item" v-if="client.company == 1">

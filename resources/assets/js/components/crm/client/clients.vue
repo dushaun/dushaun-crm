@@ -1,6 +1,9 @@
 <template>
     <div class="panel panel-info">
-        <div class="panel-heading">Clients <i v-if="loading" class="fa fa-spinner fa-spin fa-fw"></i></div>
+        <div class="panel-heading">
+            Clients <i v-if="loading" class="fa fa-spinner fa-spin fa-fw"></i>
+            <a class="btn btn-success btn-xs pull-right" href="/crm/clients/create"><i class="fa fa-plus"></i></a>
+        </div>
 
         <div class="panel-body">
             <table class="table table-striped table-hover">
@@ -10,7 +13,7 @@
                     <th>Client Type</th>
                     <th>Name</th>
                     <th>Address</th>
-                    <th></th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -20,7 +23,10 @@
                     <td v-if="client.company == 0">{{ client.first_name }} {{ client.last_name }}</td>
                     <td v-if="client.company == 1">{{ client.company_name }}</td>
                     <td>{{ client.address }}</td>
-                    <td><a class="btn btn-primary btn-xs" :href="'/crm/clients/' + client.id">View <i class="fa fa-arrow-right" aria-hidden="true"></i></a></td>
+                    <td>
+                        <a class="btn btn-primary btn-xs" :href="'/crm/clients/' + client.id">View <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                        <a class="btn btn-info btn-xs" :href="'/crm/clients/' + client.id + '/edit'">Edit <i class="fa fa-pencil" aria-hidden="true"></i></a>
+                    </td>
                 </tr>
                 </tbody>
             </table>

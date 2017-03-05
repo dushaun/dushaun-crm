@@ -9,3 +9,4 @@ Vue.component('display-enquiry', require('./components/crm/enquiry/display-enqui
 
 // Clients
 Vue.component('display-client', require('./components/crm/client/display-client.vue'));
+Vue.component('create-client', require('./components/crm/client/create-client.vue'));
